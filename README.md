@@ -1,4 +1,4 @@
-[![Iuri Ribeiro: ASCII portrait and terminal profile](assets/profile.svg)](https://iuri.io)
+[![Iuri Ribeiro: ASCII portrait and terminal profile](assets/profile-48ec5a955700.svg)](https://iuri.io)
 
 [Website](https://iuri.io) · [LinkedIn](https://www.linkedin.com/in/iuri1911) · [Email](mailto:iurics10@gmail.com)
 

@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 const root=new URL('./',import.meta.url);
 const rows=fs.readFileSync(new URL('assets/portrait.txt',root),'utf8').trimEnd().split('\n');
 const fields=[["iuri1911@github",""],["",""],["Name","Iuri Ribeiro"],["Role","Tech lead / Engineering manager"],["Location","Vitória da Conquista, Brazil"],["",""],["Work",""],["Focus","E-commerce, AI, engineering teams"],["Commerce","Shopify, headless commerce"],["Web","React, Next.js, Webflow"],["Agents","LangChain, n8n, Amazon Bedrock"],["",""],["Outside work",""],["Projects","AI agents, Three.js / WebGL"],["Home server","Intel N100 / 16 GB RAM"],["System","Debian 13 / Docker / Dockhand"],["Started with","SA-MP servers / Pawn"],["",""],["Contact",""],["Website","iuri.io"],["GitHub","github.com/iuri1911"],["LinkedIn","linkedin.com/in/iuri1911"],["Email","iurics10@gmail.com"]];
@@ -8,4 +9,8 @@ const ramp=' .:-=+*#%@';
 rows.forEach((row,y)=>{Array.from(row).forEach((ch,x)=>{if(ch===' ')return; const level=ramp.indexOf(ch)/9; const brightness=Math.round(55+200*level); const color='rgb('+Math.round(brightness*.70)+','+brightness+','+Math.round(brightness*.50)+')'; svg+='<text x="'+(28+x*6.05)+'" y="'+(135+y*10.3)+'" font-family="monospace" font-size="10" font-weight="bold" fill="'+color+'">'+esc(ch)+'</text>';});});
 fields.forEach(([key,value],i)=>{const y=94+i*25; if(!key)return; if(!value){svg+='<text x="445" y="'+y+'" font-family="monospace" font-size="17" font-weight="bold" fill="#9FE870">'+esc(key)+'</text><path d="M445 '+(y+9)+'H1125" stroke="#303036"/>';}else{svg+='<text x="445" y="'+y+'" font-family="monospace" font-size="15" fill="#be9c72">'+esc(key)+'</text><text x="588" y="'+y+'" font-family="monospace" font-size="15" fill="#d1d1d6">'+esc(value)+'</text>';}});
 svg+='<text x="1030" y="708" font-family="monospace" font-size="16" fill="#9FE870">$ iuri.io</text></svg>';
-fs.writeFileSync(new URL('assets/profile.svg',root),svg);
+const hash = createHash('sha256').update(svg).digest('hex').slice(0, 12);
+const asset = 'assets/profile-' + hash + '.svg';
+fs.writeFileSync(new URL(asset, root), svg);
+const readme = new URL('README.md', root);
+fs.writeFileSync(readme, fs.readFileSync(readme, 'utf8').replace(/assets\/profile(?:-[a-f0-9]+)?\.svg/g, asset));
